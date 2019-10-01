@@ -33,19 +33,19 @@
 			     <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
 			        
 			         <td>
-				         <c:out value="${ cmd.value.client.nom }"/>
-				         <c:out value="${ cmd.value.client.prenom }"/>
+				         <c:out value="${ cmd.client.nom }"/>
+				         <c:out value="${ cmd.client.prenom }"/>
 			         </td>
-			         <td><c:out value="${ cmd.value.date }"/></td>
-			         <td><c:out value="${ cmd.value.montant }"/></td>
-			         <td><c:out value="${ cmd.value.modePayment }"/></td>
-			         <td><c:out value="${ cmd.value.statutPayment }"/></td>
-			         <td><c:out value="${ cmd.value.modeLIvraison }"/></td>
-			         <td><c:out value="${ cmd.value.statutLIvraison }"/></td>
+			         <td><c:out value="${ cmd.date }"/></td>
+			         <td><c:out value="${ cmd.montant }"/></td>
+			         <td><c:out value="${ cmd.modePayment }"/></td>
+			         <td><c:out value="${ cmd.statutPayment }"/></td>
+			         <td><c:out value="${ cmd.modeLIvraison }"/></td>
+			         <td><c:out value="${ cmd.statutLIvraison }"/></td>
 
 			         <%-- Lien vers la servlet de suppression --%>
 			         <td class="action">
-			             <a href="<c:url value="/deleteCmd"><c:param name="id" value="${ cmd.key }" /></c:url>">
+			             <a href="<c:url value="/deleteCmd"><c:param name="id" value="${ cmd.id }" /></c:url>">
 			                 <img src="<c:url value="/public/img/delete.png"/>" alt="Supprimer" />
 			             </a>
 			         </td>

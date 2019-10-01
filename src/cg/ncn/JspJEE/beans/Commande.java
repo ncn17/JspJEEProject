@@ -2,7 +2,7 @@ package cg.ncn.JspJEE.beans;
 
 public class Commande {
 
-    private Long id;
+    private Long id = 0l;
 
     public Commande( Long id, Client client, String date, Double montant, String modePayment, String statutPayment,
             String modeLIvraison, String statutLIvraison ) {

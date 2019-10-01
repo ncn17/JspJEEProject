@@ -39,14 +39,17 @@ public class MainFilter implements Filter {
             return;
         }
 
-        /* self client and commande update */
+        // get session
         HttpSession session = request.getSession();
 
         // verification session
         if ( session.getAttribute( ATT_SESSION_USER ) == null ) {
-
+            /* self client and commande update */
             // clients zone
             BoxOutils.addClient( request );
+
+            // commandes zone
+            BoxOutils.addCommande( request );
 
             request.getRequestDispatcher( CONNECT ).forward( request, response );
         } else {

@@ -19,7 +19,6 @@ public class CommandeDAO extends DAO<Commande> {
     public final static String QUERY_DELETE   = "DELETE FROM Commande WHERE id = ?";
     public final static String QUERY_FIND     = "SELECT * FROM Commande WHERE id = ?";
     public final static String QUERY_FIND_ALL = "SELECT * FROM Commande ";
-    public final static String QUERY_COUNT    = "SELECT MAX(id) FROM Commande ";
     public final static String QUERY_CREATE   = "INSERT INTO Commande VALUES(?,?,?,?,?,?,?,?) ";
 
     @Override
@@ -76,24 +75,15 @@ public class CommandeDAO extends DAO<Commande> {
         boolean temoin = true;
 
         try {
-
-            Long nbre = 0L;
-            ResultSet result = DAOUtils.buildQuery( this.conn, QUERY_COUNT, DAOUtils.READ_QUERY ).executeQuery();
-            if ( result.first() ) {
-                nbre = result.getLong( 1 );
-            }
-            cmd.setId( ++nbre );
-
             requete = DAOUtils.buildQuery( conn, QUERY_CREATE, DAOUtils.UPDATE_QUERY );
             requete.setLong( 1, cmd.getId() );
             requete.setLong( 2, cmd.getClient().getId() );
-            // requete.setTimestamp( 3, new Timestamp( cmd.getDate().getMillis()
-            // ) );
-            // requete.setString( 4, cmd.getModePayement() );
-            // requete.setString( 5, cmd.getStatusPayement() );
-            // requete.setString( 6, cmd.getModeLivraison() );
-            // requete.setString( 7, cmd.getStatusLivraison() );
-            // requete.setDouble( 8, cmd.getMontant() );
+            requete.setString( 3, cmd.getDate() );
+            requete.setDouble( 4, cmd.getMontant() );
+            requete.setString( 5, cmd.getModePayment() );
+            requete.setString( 6, cmd.getStatutPayment() );
+            requete.setString( 7, cmd.getModeLIvraison() );
+            requete.setString( 8, cmd.getStatutLIvraison() );
 
             int status = requete.executeUpdate();
 
@@ -125,11 +115,9 @@ public class CommandeDAO extends DAO<Commande> {
         try {
             requete = DAOUtils.buildQuery( this.conn, QUERY_DELETE, DAOUtils.READ_QUERY );
 
-            temoin = requete.executeUpdate() > 0 ? true : false;
+            requete.setLong( 1, id );
 
-            if ( !temoin ) {
-                throw new DAOException( "Echec de la suppr�ssion de la commande" );
-            }
+            temoin = requete.execute();
 
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -145,25 +133,15 @@ public class CommandeDAO extends DAO<Commande> {
 
         /* recuperation du client de la commmande */
         Client client = DAOFactory.getClientDAO().find( res.getInt( "id_client" ) );
-        return null;
 
-        /* recuperation date de cr�ation */
-        // DateTime date = null;
-        // try {
-        // date = ValidationForm.stringToDate( res.getTimestamp( "date_creation"
-        // ) );
-        // } catch ( Exception e ) {
-        // e.printStackTrace();
-        // }
-        //
-        // return new Commande( res.getLong( "id" ),
-        // client,
-        // date.toString(),
-        // res.getDouble( "montant" ),
-        // res.getString( "modePayement" ),
-        // res.getString( "statusPayement" ),
-        // res.getString( "modeLivraison" ),
-        // res.getString( "statusLivraison" ) );
+        return new Commande( res.getLong( "id" ),
+                client,
+                res.getString( "date" ),
+                res.getDouble( "montant" ),
+                res.getString( "mode_paiement" ),
+                res.getString( "statut_paiement" ),
+                res.getString( "mode_livraison" ),
+                res.getString( "statut_livraison" ) );
 
     }
 

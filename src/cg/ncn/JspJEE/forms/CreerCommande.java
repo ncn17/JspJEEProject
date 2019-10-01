@@ -12,6 +12,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import cg.ncn.JspJEE.beans.Client;
 import cg.ncn.JspJEE.beans.Commande;
+import cg.ncn.JspJEE.dao.DAOFactory;
 import cg.ncn.JspJEE.outils.BoxOutils;
 
 public class CreerCommande {
@@ -75,7 +76,11 @@ public class CreerCommande {
             oldClient = form.inscrireClient( request );
             commande.setClient( oldClient );
             // save
-            ///// :::::BoxOutils.addClient( request, oldClient );
+            DAOFactory.getClientDAO().create( oldClient );
+
+            // add the new client refresh liste
+            BoxOutils.addClient( request );
+
             // add Client error
             for ( Map.Entry<String, String> listError : form.getErreurs().entrySet() ) {
                 setErreurs( listError.getKey(), listError.getValue() );
@@ -89,6 +94,10 @@ public class CreerCommande {
             // assignation
             commande = new Commande( oldClient, date, montant, modePayement, statutPayement, modeLivraison,
                     statutLivraison );
+            // save to database
+            DAOFactory.getCommandeDAO().create( commande );
+            // refresh page session
+            BoxOutils.addCommande( request );
         } else {
             resultat = "Echec de la création du client";
         }

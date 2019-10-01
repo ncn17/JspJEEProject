@@ -1,7 +1,7 @@
 package cg.ncn.JspJEE.servlets;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cg.ncn.JspJEE.beans.Commande;
+import cg.ncn.JspJEE.dao.DAOFactory;
 import cg.ncn.JspJEE.outils.BoxOutils;
 import cg.ncn.JspJEE.outils.Props;
 
@@ -50,17 +51,21 @@ public class DeleteCmd extends HttpServlet {
         doGet( request, response );
     }
 
-    @SuppressWarnings( "unchecked" )
     public void deleteCommande( HttpServletRequest req, int id ) {
-        // get session
+        // delete session
+        DAOFactory.getCommandeDAO().delete( id );
+
+        // get cmd
+        Commande commande = BoxOutils.getCommande( req, id );
+
         HttpSession session = req.getSession();
-        if ( session.getAttribute( Props.BDD_COMMANDE ) != null ) {
-            Map<Integer, Commande> liste = (Map<Integer, Commande>) session.getAttribute( Props.BDD_COMMANDE );
-            // found and delete
-            liste.remove( id );
-            // reset client liste
-            session.setAttribute( Props.BDD_COMMANDE, liste );
-        }
+
+        @SuppressWarnings( "unchecked" )
+        ArrayList<Commande> cmds = (ArrayList<Commande>) session.getAttribute( Props.BDD_COMMANDE );
+
+        cmds.remove( commande );
+
+        session.setAttribute( Props.BDD_COMMANDE, cmds );
     }
 
 }

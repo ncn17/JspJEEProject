@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -75,6 +73,33 @@ public class BoxOutils {
         return montant;
     }
 
+    public static void addCommande( HttpServletRequest req ) {
+        // get bdd clients list
+        ArrayList<Commande> cmds = DAOFactory.getCommandeDAO().findAll();
+
+        if ( !cmds.isEmpty() && cmds != null ) {
+            // get session
+            HttpSession session = req.getSession();
+            session.removeAttribute( BDD_COMMANDE );
+            session.setAttribute( BDD_COMMANDE, cmds );
+        }
+    }
+
+    @SuppressWarnings( "unchecked" )
+    public static Commande getCommande( HttpServletRequest req, int id ) {
+        Commande cmd = null;
+        // get session
+        HttpSession session = req.getSession();
+        ArrayList<Commande> cmds = (ArrayList<Commande>) session.getAttribute( Props.BDD_COMMANDE );
+
+        for ( Commande found : cmds ) {
+            if ( found.getId() == id ) {
+                cmd = found;
+            }
+        }
+        return cmd;
+    }
+
     public static void addClient( HttpServletRequest req ) {
         // get bdd clients list
         ArrayList<Client> clients = DAOFactory.getClientDAO().findAll();
@@ -110,21 +135,6 @@ public class BoxOutils {
         int number = ( liste != null && !liste.isEmpty() ) ? liste.size() + 1 : 1;
 
         return number;
-    }
-
-    @SuppressWarnings( "unchecked" )
-    public static void addCommande( HttpServletRequest req, Commande cmd ) {
-        // get session
-        HttpSession session = req.getSession();
-        Map<Integer, Commande> liste = new HashMap<Integer, Commande>();
-
-        if ( session.getAttribute( BDD_COMMANDE ) != null ) {
-            liste = (Map<Integer, Commande>) session.getAttribute( BDD_COMMANDE );
-        }
-        int nombre = liste.size() + 1;
-        liste.put( nombre, cmd );
-
-        session.setAttribute( BDD_COMMANDE, liste );
     }
 
     public static int parseId( String txtId ) {

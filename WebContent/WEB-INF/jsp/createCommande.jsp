@@ -22,7 +22,7 @@
                <select id="multi" name="Clients">
                		<option value="">Choisissez un client</option>
                		<c:forEach  items="${ sessionScope.listeClients }" var="data" >
-               			<option value="${ data.key }">${ data.value.prenom }</option>
+               			<option value="${ data.id }">${ data.prenom }</option>
                		</c:forEach>
                </select>
             

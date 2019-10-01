@@ -50,8 +50,6 @@ public class CreateCommande extends HttpServlet {
         request.setAttribute( ATT_FORM, form );
 
         if ( form.getErreurs().isEmpty() ) {
-            // add the new commande
-            BoxOutils.addCommande( request, commande );
             // redirect to vue page
             response.sendRedirect( request.getContextPath() + SHOW );
         } else {
