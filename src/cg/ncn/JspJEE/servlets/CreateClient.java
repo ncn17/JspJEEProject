@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import cg.ncn.JspJEE.beans.Client;
 import cg.ncn.JspJEE.forms.InscriptionForm;
-import cg.ncn.JspJEE.outils.BoxOutils;
 
 @WebServlet( "/createClient" )
 @MultipartConfig( location = "/servers/uploads/tmp/", maxFileSize = 1048576, maxRequestSize = 5242880, fileSizeThreshold = 10485576 )
@@ -41,8 +40,6 @@ public class CreateClient extends HttpServlet {
         request.setAttribute( ATT_FORM, form );
 
         if ( form.getErreurs().isEmpty() ) {
-            // add the new client
-            BoxOutils.addClient( request, client );
             // redirect to vue page
             response.sendRedirect( request.getContextPath() + SHOW );
         } else {

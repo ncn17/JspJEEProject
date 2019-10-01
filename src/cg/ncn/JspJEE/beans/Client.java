@@ -2,12 +2,12 @@ package cg.ncn.JspJEE.beans;
 
 public class Client {
 
+    private Long   id = 0l;
     private String nom;
     private String prenom;
     private String adresse;
     private String numero;
     private String email;
-    private String password;
     private String image;
 
     public Client() {
@@ -15,6 +15,17 @@ public class Client {
 
     public Client( String nom, String prenom, String adresse, String numero, String email, String image ) {
         super();
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.numero = numero;
+        this.email = email;
+        this.image = image;
+    }
+
+    public Client( Long id, String nom, String prenom, String adresse, String numero, String email,
+            String image ) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
@@ -63,20 +74,26 @@ public class Client {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword( String password ) {
-        this.password = password;
-    }
-
     public String getImage() {
         return image;
     }
 
     public void setImage( String image ) {
         this.image = image;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId( Long id ) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Client [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", numero="
+                + numero + ", email=" + email + ", image=" + image + "]";
     }
 
 }

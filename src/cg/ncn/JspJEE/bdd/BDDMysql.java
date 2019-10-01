@@ -9,14 +9,16 @@ import com.jolbox.bonecp.BoneCPConfig;
 import cg.ncn.JspJEE.outils.Props;
 
 public abstract class BDDMysql {
-    // Objet connexion appel direct avec la JVM
+
+    // Objet connexion instanciation direct avec la JVM
     private static Connection conn = getConnexion();
 
     public synchronized static Connection getConnexion() {
         if ( conn == null ) {
-
             try {
                 Class.forName( Props.MYSQL_DRIVER );
+
+                // configuration de Bone CP
                 BoneCPConfig config = new BoneCPConfig();
 
                 config.setJdbcUrl( Props.getMysqlUrl() );
@@ -30,6 +32,7 @@ public abstract class BDDMysql {
                 @SuppressWarnings( "resource" )
                 BoneCP connectionPool = new BoneCP( config );
 
+                // get connect data
                 conn = connectionPool.getConnection();
 
             } catch ( SQLException | ClassNotFoundException e ) {

@@ -14,13 +14,14 @@ import eu.medsea.mimeutil.MimeUtil;
 
 /**
  * 
- * @author atir17 ncn save file 1.1.7
+ * @author atir17 ncn save file 1.2.0
  */
 public class SaveFile {
 
-    private static Map<String, String> erreurs = new HashMap<String, String>();
+    private Map<String, String> erreurs = new HashMap<String, String>();
+    private String              fileName;
 
-    public static Map<String, String> save( HttpServletRequest request, String CHAMP_FILE, String fileName ) {
+    public void save( HttpServletRequest request, String CHAMP_FILE ) {
         InputStream dataFile = null;
 
         try {
@@ -87,12 +88,22 @@ public class SaveFile {
             }
         }
 
-        return erreurs;
-
     }
 
-    public static void setErreurs( String champ, String err ) {
-        erreurs.put( champ, err );
+    public SaveFile( String fileName ) {
+        this.fileName = fileName;
+    }
+
+    public void setErreurs( String champ, String err ) {
+        this.erreurs.put( champ, err );
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public Map<String, String> getErreurs() {
+        return erreurs;
     }
 
 }

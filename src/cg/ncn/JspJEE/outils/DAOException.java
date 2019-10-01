@@ -1,6 +1,11 @@
-package cg.tpjee.proprietes;
+package cg.ncn.JspJEE.outils;
 
 public class DAOException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /*
      * Constructeurs
      */

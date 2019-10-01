@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cg.ncn.JspJEE.beans.Client;
+import cg.ncn.JspJEE.beans.User;
 import cg.ncn.JspJEE.outils.BoxOutils;
 
 public class LoginForm {
@@ -16,9 +16,7 @@ public class LoginForm {
     private String              resultat;
     private Map<String, String> erreurs     = new HashMap<String, String>();
 
-    public Client connect( HttpServletRequest request ) {
-
-        Client client = new Client();
+    public User connect( HttpServletRequest request ) {
 
         String mail = BoxOutils.getChamp( request, CHAMP_LOGIN );
         String pass = BoxOutils.getChamp( request, CHAMP_MDP );
@@ -42,10 +40,9 @@ public class LoginForm {
         }
 
         // assignation
-        client.setEmail( mail );
-        client.setPassword( pass );
+        User user = new User( mail, pass );
 
-        return client;
+        return user;
     }
 
     public String getResultat() {

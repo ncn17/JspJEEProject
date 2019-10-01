@@ -17,7 +17,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-import cg.ncn.JspJEE.beans.Client;
+import cg.ncn.JspJEE.beans.User;
 import cg.ncn.JspJEE.forms.LoginForm;
 
 @WebServlet( urlPatterns = "/login" )
@@ -81,16 +81,16 @@ public class Login extends HttpServlet {
 
         LoginForm form = new LoginForm();
 
-        Client client = form.connect( request );
+        User user = form.connect( request );
 
-        request.setAttribute( ATT_CLIENT, client );
+        request.setAttribute( ATT_CLIENT, user );
         request.setAttribute( ATT_FORM, form );
 
         HttpSession session = request.getSession();
 
         if ( form.getErreurs().isEmpty() ) {
             // definition de la session & redirection
-            session.setAttribute( ATT_SESSION_USER, client );
+            session.setAttribute( ATT_SESSION_USER, user );
 
             // champ memoire
             String memoire = request.getParameter( CHAMP_MEMOIRE );

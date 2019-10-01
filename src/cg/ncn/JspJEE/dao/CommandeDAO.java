@@ -1,18 +1,14 @@
-package cg.tpjee.dao;
+package cg.ncn.JspJEE.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.joda.time.DateTime;
-
-import cg.tpjee.beans.Client;
-import cg.tpjee.beans.Commande;
-import cg.tpjee.forms.ValidationForm;
-import cg.tpjee.proprietes.DAOException;
+import cg.ncn.JspJEE.beans.Client;
+import cg.ncn.JspJEE.beans.Commande;
+import cg.ncn.JspJEE.outils.DAOException;
 
 public class CommandeDAO extends DAO<Commande> {
 
@@ -91,18 +87,19 @@ public class CommandeDAO extends DAO<Commande> {
             requete = DAOUtils.buildQuery( conn, QUERY_CREATE, DAOUtils.UPDATE_QUERY );
             requete.setLong( 1, cmd.getId() );
             requete.setLong( 2, cmd.getClient().getId() );
-            requete.setTimestamp( 3, new Timestamp( cmd.getDate().getMillis() ) );
-            requete.setString( 4, cmd.getModePayement() );
-            requete.setString( 5, cmd.getStatusPayement() );
-            requete.setString( 6, cmd.getModeLivraison() );
-            requete.setString( 7, cmd.getStatusLivraison() );
-            requete.setDouble( 8, cmd.getMontant() );
+            // requete.setTimestamp( 3, new Timestamp( cmd.getDate().getMillis()
+            // ) );
+            // requete.setString( 4, cmd.getModePayement() );
+            // requete.setString( 5, cmd.getStatusPayement() );
+            // requete.setString( 6, cmd.getModeLivraison() );
+            // requete.setString( 7, cmd.getStatusLivraison() );
+            // requete.setDouble( 8, cmd.getMontant() );
 
             int status = requete.executeUpdate();
 
             if ( status == 0 ) {
                 temoin = false;
-                throw new DAOException( "Echec de la création de la commande" );
+                throw new DAOException( "Echec de la crï¿½ation de la commande" );
             }
 
         } catch ( SQLException e ) {
@@ -120,19 +117,18 @@ public class CommandeDAO extends DAO<Commande> {
     }
 
     @Override
-    public boolean delete( Commande cmd ) throws DAOException {
+    public boolean delete( int id ) throws DAOException {
         ResultSet resultat = null;
         PreparedStatement requete = null;
         Boolean temoin = true;
 
         try {
             requete = DAOUtils.buildQuery( this.conn, QUERY_DELETE, DAOUtils.READ_QUERY );
-            requete.setLong( 1, cmd.getId() );
 
             temoin = requete.executeUpdate() > 0 ? true : false;
 
             if ( !temoin ) {
-                throw new DAOException( "Echec de la suppréssion de la commande" );
+                throw new DAOException( "Echec de la supprï¿½ssion de la commande" );
             }
 
         } catch ( SQLException e ) {
@@ -149,23 +145,25 @@ public class CommandeDAO extends DAO<Commande> {
 
         /* recuperation du client de la commmande */
         Client client = DAOFactory.getClientDAO().find( res.getInt( "id_client" ) );
+        return null;
 
-        /* recuperation date de création */
-        DateTime date = null;
-        try {
-            date = ValidationForm.stringToDate( res.getTimestamp( "date_creation" ) );
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-
-        return new Commande( res.getLong( "id" ),
-                client,
-                date,
-                res.getString( "modePayement" ),
-                res.getString( "statusPayement" ),
-                res.getString( "modeLivraison" ),
-                res.getString( "statusLivraison" ),
-                res.getDouble( "montant" ) );
+        /* recuperation date de crï¿½ation */
+        // DateTime date = null;
+        // try {
+        // date = ValidationForm.stringToDate( res.getTimestamp( "date_creation"
+        // ) );
+        // } catch ( Exception e ) {
+        // e.printStackTrace();
+        // }
+        //
+        // return new Commande( res.getLong( "id" ),
+        // client,
+        // date.toString(),
+        // res.getDouble( "montant" ),
+        // res.getString( "modePayement" ),
+        // res.getString( "statusPayement" ),
+        // res.getString( "modeLivraison" ),
+        // res.getString( "statusLivraison" ) );
 
     }
 

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cg.ncn.JspJEE.outils.BoxOutils;
+
 @WebFilter( urlPatterns = "/*" )
 public class MainFilter implements Filter {
 
@@ -37,12 +39,16 @@ public class MainFilter implements Filter {
             return;
         }
 
-        // verification session
+        /* self client and commande update */
         HttpSession session = request.getSession();
-        if ( session.getAttribute( ATT_SESSION_USER ) == null ) {
-            request.getRequestDispatcher( CONNECT ).forward( request,
-                    response );
 
+        // verification session
+        if ( session.getAttribute( ATT_SESSION_USER ) == null ) {
+
+            // clients zone
+            BoxOutils.addClient( request );
+
+            request.getRequestDispatcher( CONNECT ).forward( request, response );
         } else {
             chain.doFilter( request, response );
         }

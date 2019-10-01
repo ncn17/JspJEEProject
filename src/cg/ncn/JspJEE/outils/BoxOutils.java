@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +20,11 @@ import org.joda.time.format.DateTimeFormatter;
 
 import cg.ncn.JspJEE.beans.Client;
 import cg.ncn.JspJEE.beans.Commande;
+import cg.ncn.JspJEE.dao.DAOFactory;
 
 public class BoxOutils {
-    private static final String BDD_CLIENT   = "listeClients";
-    private static final String BDD_COMMANDE = "listeCmd";
+    public static final String BDD_CLIENT   = "listeClients";
+    public static final String BDD_COMMANDE = "listeCmd";
 
     public static String getChamp( HttpServletRequest request, String champ ) {
         return request.getParameter( champ );
@@ -50,7 +52,7 @@ public class BoxOutils {
 
     public static void verifyNumero( String champ ) throws Exception {
         if ( champ != null && champ.trim().isEmpty() != true ) {
-            if ( champ.length() < 4 ) {
+            if ( champ.length() < 4 || champ.length() > 10 ) {
                 throw new Exception( "Merci d'entrez un numéro de téléphone valable." );
             }
         } else {
@@ -73,25 +75,37 @@ public class BoxOutils {
         return montant;
     }
 
+    public static void addClient( HttpServletRequest req ) {
+        // get bdd clients list
+        ArrayList<Client> clients = DAOFactory.getClientDAO().findAll();
+
+        if ( !clients.isEmpty() && clients != null ) {
+            // get session
+            HttpSession session = req.getSession();
+            session.setAttribute( BDD_CLIENT, null );
+            session.setAttribute( BDD_CLIENT, clients );
+        }
+    }
+
     @SuppressWarnings( "unchecked" )
-    public static void addClient( HttpServletRequest req, Client client ) {
+    public static Client getClient( HttpServletRequest req, int id ) {
+        Client client = null;
         // get session
         HttpSession session = req.getSession();
-        Map<Integer, Client> liste = new HashMap<Integer, Client>();
+        ArrayList<Client> clients = (ArrayList<Client>) session.getAttribute( Props.BDD_CLIENT );
 
-        if ( session.getAttribute( BDD_CLIENT ) != null ) {
-            liste = (Map<Integer, Client>) session.getAttribute( BDD_CLIENT );
+        for ( Client cli : clients ) {
+            if ( cli.getId() == id ) {
+                client = cli;
+            }
         }
-        int nombre = liste.size() + 1;
-        liste.put( nombre, client );
-
-        session.setAttribute( BDD_CLIENT, liste );
+        return client;
     }
 
     @SuppressWarnings( "unchecked" )
     public static int countClient( HttpServletRequest req ) {
         HttpSession session = req.getSession();
-        Map<Integer, Client> liste = (Map<Integer, Client>) session.getAttribute( BDD_CLIENT );
+        ArrayList<Client> liste = (ArrayList<Client>) session.getAttribute( BDD_CLIENT );
 
         int number = ( liste != null && !liste.isEmpty() ) ? liste.size() + 1 : 1;
 

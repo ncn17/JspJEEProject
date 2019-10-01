@@ -1,19 +1,18 @@
-package cg.tpjee.dao;
+package cg.ncn.JspJEE.dao;
 
 import java.sql.Connection;
 
-import cg.tpjee.bdd.BDDMysql;
-import cg.tpjee.beans.Client;
-import cg.tpjee.beans.Commande;
-import cg.tpjee.beans.Utilisateur;
+import cg.ncn.JspJEE.bdd.BDDMysql;
+import cg.ncn.JspJEE.beans.Client;
+import cg.ncn.JspJEE.beans.Commande;
 
 public class DAOFactory {
 
     /* appel direct et unique de la bdd instenciation jvm */
     protected static Connection conn = BDDMysql.getConnexion();
 
-    public DAO<Utilisateur> getUilisateurDAO() {
-        return new UtilisateurDAO( conn );
+    public DAO<Client> getUilisateurDAO() {
+        return new ClientDAO( conn );
     }
 
     public static DAO<Client> getClientDAO() {

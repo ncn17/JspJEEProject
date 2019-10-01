@@ -2,6 +2,21 @@ package cg.ncn.JspJEE.beans;
 
 public class Commande {
 
+    private Long id;
+
+    public Commande( Long id, Client client, String date, Double montant, String modePayment, String statutPayment,
+            String modeLIvraison, String statutLIvraison ) {
+        super();
+        this.id = id;
+        this.client = client;
+        this.date = date;
+        this.montant = montant;
+        this.modePayment = modePayment;
+        this.statutPayment = statutPayment;
+        this.modeLIvraison = modeLIvraison;
+        this.statutLIvraison = statutLIvraison;
+    }
+
     private Client client;
 
     private String date;
@@ -81,6 +96,14 @@ public class Commande {
 
     public void setStatutLIvraison( String statutLIvraison ) {
         this.statutLIvraison = statutLIvraison;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId( Long id ) {
+        this.id = id;
     }
 
 }

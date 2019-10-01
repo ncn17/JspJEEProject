@@ -75,7 +75,7 @@ public class CreerCommande {
             oldClient = form.inscrireClient( request );
             commande.setClient( oldClient );
             // save
-            BoxOutils.addClient( request, oldClient );
+            ///// :::::BoxOutils.addClient( request, oldClient );
             // add Client error
             for ( Map.Entry<String, String> listError : form.getErreurs().entrySet() ) {
                 setErreurs( listError.getKey(), listError.getValue() );

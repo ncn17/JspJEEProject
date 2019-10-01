@@ -24,7 +24,7 @@ public abstract class DAO<T> {
 
     public abstract boolean update( T obj ) throws DAOException;
 
-    public abstract boolean delete( T obj ) throws DAOException;
+    public abstract boolean delete( int id ) throws DAOException;
 
     public abstract T Hydrate( ResultSet res ) throws SQLException;
 

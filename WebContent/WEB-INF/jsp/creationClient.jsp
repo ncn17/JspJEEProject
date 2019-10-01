@@ -33,20 +33,20 @@
 				     <%-- Simple test de parité sur l'index  --%>
 				     <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
 				        
-				         <td><c:out value="${ client.value.nom }"/></td>
-				         <td><c:out value="${ client.value.prenom }"/></td>
-				         <td><c:out value="${ client.value.adresse }"/></td>
-				         <td><c:out value="${ client.value.numero }"/></td>
-				         <td><c:out value="${ client.value.email }"/></td>
+				         <td><c:out value="${ client.nom }"/></td>
+				         <td><c:out value="${ client.prenom }"/></td>
+				         <td><c:out value="${ client.adresse }"/></td>
+				         <td><c:out value="${ client.numero }"/></td>
+				         <td><c:out value="${ client.email }"/></td>
 				         <td>
-				             <a href="<c:url value="/upload/${ client.value.image }"></c:url>">
+				             <a href="<c:url value="/upload/${ client.image }"></c:url>">
 				                 Afficher l'image
 				             </a>
 				         </td>
 				         
 				         <%-- Lien vers la servlet de suppression --%>
 				         <td class="action">
-				             <a href="<c:url value="/deleteClient"><c:param name="id" value="${ client.key }" /></c:url>">
+				             <a href="<c:url value="/deleteClient"><c:param name="id" value="${ client.id }" /></c:url>">
 				                 <img src="<c:url value="/public/img/delete.png"/>" alt="Supprimer" />
 				             </a>
 				         </td>
