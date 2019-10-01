@@ -2,12 +2,14 @@ package cg.ncn.JspJEE.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cg.ncn.JspJEE.beans.Client;
 import cg.ncn.JspJEE.dao.DAOFactory;
@@ -61,8 +63,15 @@ public class DeleteClient extends HttpServlet {
         if ( file.exists() ) {
             file.delete();
         }
-        // update clients liste
-        BoxOutils.addClient( req );
+
+        HttpSession session = req.getSession();
+
+        @SuppressWarnings( "unchecked" )
+        ArrayList<Client> clients = (ArrayList<Client>) session.getAttribute( Props.BDD_CLIENT );
+
+        clients.remove( client );
+
+        session.setAttribute( Props.BDD_CLIENT, clients );
     }
 
 }

@@ -82,7 +82,7 @@ public class BoxOutils {
         if ( !clients.isEmpty() && clients != null ) {
             // get session
             HttpSession session = req.getSession();
-            session.setAttribute( BDD_CLIENT, null );
+            session.removeAttribute( BDD_CLIENT );
             session.setAttribute( BDD_CLIENT, clients );
         }
     }
